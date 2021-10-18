@@ -34,7 +34,7 @@ function create ()
   var emitter = particles.createEmitter({
     speed: 100,
     scale: { start: 1, end: 0 },
-    blendMode: 'ADD'
+    blendMode: 'NORMAL'
   });
 
   var logo = this.physics.add.image(400, 100, 'logo');
