@@ -1,7 +1,10 @@
+let width = window.innerWidth;
+let height = window.innerHeight;
+
 var config = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
+  width,
+  height,
   physics: {
     default: 'arcade',
     arcade: {
