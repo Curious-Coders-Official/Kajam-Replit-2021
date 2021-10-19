@@ -1,8 +1,8 @@
 const Phaser = require("phaser");
 const GameScene = require("./gameScene");
 
-let width = window.innerWidth;
-let height = window.innerHeight;
+let width = window.innerWidth * 2;
+let height = window.innerHeight * 2;
 
 
 var config = {

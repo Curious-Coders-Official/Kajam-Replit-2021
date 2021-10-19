@@ -1,17 +1,17 @@
 const Phaser = require("phaser");
 
 class GameScene extends Phaser.Scene {
-  constructor(){
+  constructor() {
     super("GameScene");
   }
-  preload(){
+  preload() {
     this.canvas = this.sys.game.canvas; //  Sets the canvas property for ease of acess
   }
-  create(){
+  create() {
 
 
     // Player
-    this.player = this.add.rectangle(300, 200,50,70, 0xff0000);
+    this.player = this.add.rectangle(300, 200, 50, 70, 0xff0000);
     this.physics.add.existing(this.player);
     this.player.body.setCollideWorldBounds(true);
 
@@ -31,16 +31,16 @@ class GameScene extends Phaser.Scene {
 
 
     // Camera
-    this.cameras.main.setBounds(0,0, 3000, this.canvas.height);
+    this.cameras.main.setBounds(0, 0, this.canvas.height * 2 + 3000, this.canvas.height * 2 + 200);
     this.cameras.main.startFollow(this.player);
-    this.cameras.main.setBackgroundColor('#ccccff'); 
+    this.cameras.main.setBackgroundColor('#ccccff');
   }
-  update(){
-    if(this.cursors.left.isDown){
-      this.player.body.x = this.player.body.x-10;
-    } else if(this.cursors.right.isDown){
-      this.player.body.x = this.player.body.x+10;
-    } if((this.cursors.space.isDown || this.cursors.up.isDown) && this.player.body.onFloor()){
+  update() {
+    if (this.cursors.left.isDown) {
+      this.player.body.x = this.player.body.x - 10;
+    } else if (this.cursors.right.isDown) {
+      this.player.body.x = this.player.body.x + 10;
+    } if ((this.cursors.space.isDown || this.cursors.up.isDown) && this.player.body.onFloor()) {
       this.player.body.setVelocityY(-900);
     }
   }
