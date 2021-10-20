@@ -6,10 +6,13 @@ class GameScene extends Phaser.Scene {
   }
   preload() {
     this.canvas = this.sys.game.canvas; //  Sets the canvas property for ease of acess
+    // this.load.image('owl', 'static/owl.gif');
+    this.load.image('back', 'static/back.gif');
   }
   create() {
 
 
+    this.add.image(0, 0, 'back').setDisplayOrigin(0,0).setScale(2.7);
     // Player
     this.player = this.add.rectangle(300, 200, 50, 70, 0xff0000);
     this.physics.add.existing(this.player);
