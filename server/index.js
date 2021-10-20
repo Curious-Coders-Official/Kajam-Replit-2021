@@ -1,12 +1,12 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const path = require("path");
 const port = 3000;
 
 app.use("/static", express.static("static"));
-app.use("/assets", express.static("assets"))
+app.use("/assets", express.static("assets"));
 
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.htm"));
 });
 
