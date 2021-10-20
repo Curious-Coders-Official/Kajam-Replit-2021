@@ -48,17 +48,16 @@ class GameScene extends Phaser.Scene {
 
     // joystick
     this.joysctick = this.plugins
-      .get("joystickplugin")
+      .get("rexvirtualjoystickplugin")
       .add(this, {
-        radius: 50,
-        x: 30,
-        y: 30,
+        radius: 60,
+        x: window.innerWidth - 75,
+        y: window.innerHeight - 75,
         dir: 1,
-        base: this.add.circle(0, 0, 50, 0x888888),
-        thumb: this.add.circle(0, 0, 25, 0xef1313),
+        base: this.add.circle(0, 0, 60, 0x888888),
+        thumb: this.add.circle(0, 0, 30, 0xef1313),
       })
       .on("update", this.handleJoystick, this);
-    this.print = this.add.text(0, 0).setText;
   }
 
   update() {
@@ -78,7 +77,17 @@ class GameScene extends Phaser.Scene {
   handleJoystick() {
     let cursorKeys = this.joysctick.createCursorKeys();
     let keyDown = cursorKeys.find((key) => key.isDown);
-    this.print(keyDown);
+    
+    if (keyDown === "left")
+      this.player.body.x = this.player.body.x - 10;
+    else if (keyDown === "right")
+      this.player.body.x = this.player.body.x + 10;
+    else if (
+      (["bottom", "top"].includes(keyDown)) &&
+      this.player.body.onFloor()
+    ) {
+      this.player.body.setVelocityY(-900);
+    }
   }
 }
 
