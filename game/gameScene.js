@@ -8,11 +8,11 @@ class GameScene extends Phaser.Scene {
     this.canvas = this.sys.game.canvas; //  Sets the canvas property for ease of acess
 
     // joystick plugin hehe
-    /* this.load.plugin(
-      "joystickplugin",
-      "./joystick.min.js",
+    this.load.plugin(
+      "rexvirtualjoystickplugin",
+      "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js",
       true
-    ); */
+    );
   }
 
   create() {

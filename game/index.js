@@ -1,6 +1,5 @@
 const Phaser = require("phaser");
 const GameScene = require("./gameScene");
-const joystick = require('./joystick.min.js')
 
 let width = window.innerWidth * 2;
 let height = window.innerHeight * 2;
@@ -16,14 +15,14 @@ var config = {
       debug: true,
     },
   },
-  plugins: {
-        global: [{
-            key: 'joystick',
-            plugin: joystick,
-            start: true
-        },
-        ]
-    },
+  // plugins: {
+  //   global: [{
+  //     key: 'joystick',
+  //     plugin: joystick,
+  //     start: true
+  //   },
+  //   ]
+  // },
   scene: GameScene,
 };
 
