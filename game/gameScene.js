@@ -47,13 +47,13 @@ class GameScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#ccccff");
 
     // joystick
-    this.joysctick = this.plugins
+    this.joystick = this.plugins
       .get("rexvirtualjoystickplugin")
       .add(this, {
         radius: 60,
         x: window.innerWidth - 75,
         y: window.innerHeight - 75,
-        dir: 1,
+        dir: '4dir',
         base: this.add.circle(0, 0, 60, 0x888888),
         thumb: this.add.circle(0, 0, 30, 0xef1313),
       })
@@ -75,7 +75,7 @@ class GameScene extends Phaser.Scene {
   }
 
   handleJoystick() {
-    let cursorKeys = this.joysctick.createCursorKeys();
+    let cursorKeys = this.joystick.createCursorKeys();
     let keyDown = cursorKeys.find((key) => key.isDown);
     
     if (keyDown === "left")
