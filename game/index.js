@@ -1,11 +1,11 @@
 const Phaser = require("phaser");
 const GameScene = require("./gameScene");
 
-let width = window.innerWidth * 2;
-let height = window.innerHeight * 2;
+let width = 1500;
+let height = 1300;
 
 var config = {
-  type: Phaser.AUTO,
+  type: Phaser.CANVAS,
   width,
   height,
   physics: {
@@ -18,5 +18,4 @@ var config = {
   scene: GameScene,
 };
 
-// var game = 
 new Phaser.Game(config);
