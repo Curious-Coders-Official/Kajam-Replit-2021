@@ -18,7 +18,10 @@ class GameScene extends Phaser.Scene {
   
   create() {
     this.add.image(0, 0, 'back').setDisplayOrigin(0,0).setScale(2.7);
-
+    this.fpsText = this.add.text(10, 10, "FPS: --", {
+        font: 'bold 26px Arial',
+        fill: '#ffffff'
+    });
 
     this.player = new Player(this, 500,300, 'owl');
     
@@ -59,7 +62,8 @@ class GameScene extends Phaser.Scene {
       .on("update", this.handleJoystick, this);
   }
 
-  update() {
+  update(time, delta) {
+    this.fpsText.setText("FPS: "+ (1000/delta).toFixed(3))
     this.player.update();
   }
 
