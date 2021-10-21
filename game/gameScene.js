@@ -1,5 +1,5 @@
 const Phaser = require("phaser");
-
+const Player = require("./Player");
 class GameScene extends Phaser.Scene {
   constructor() {
     super("GameScene");
@@ -18,22 +18,19 @@ class GameScene extends Phaser.Scene {
   
   create() {
     this.add.image(0, 0, 'back').setDisplayOrigin(0,0).setScale(2.7);
-    // Player
-    // this.player = this.add.rectangle(300, 200, 50, 70, 0xff0000);
-    this.player = this.add.image(300, 200, 'owl').setScale(0.5);
-    this.physics.add.existing(this.player);
-    this.player.body.setCollideWorldBounds(true);
 
-    // Platforms
+
+    this.player = new Player(this, 500,300, 'owl');
+    
+    // Platforms 
+    let platforms = this.physics.add.staticGroup();
     let platformsArr = [];
     platformsArr.push(this.add.rectangle(300, 400, 100, 30, 0x0000ff));
     platformsArr.push(this.add.rectangle(500, 550, 200, 30, 0x0000ff));
     // this.add.rectangle(300, 100, 100, 30, 0x0000ff);
     // this.add.rectangle(300, 100, 100, 30, 0x0000ff);
     // this.add.rectangle(300, 100, 100, 30, 0x0000ff);
-    let platforms = this.physics.add.staticGroup();
     platforms.addMultiple(platformsArr);
-
     this.physics.add.collider(this.player, platforms);
 
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -63,17 +60,7 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    if (this.cursors.left.isDown) {
-      this.player.body.x = this.player.body.x - 10;
-    } else if (this.cursors.right.isDown) {
-      this.player.body.x = this.player.body.x + 10;
-    }
-    if (
-      (this.cursors.space.isDown || this.cursors.up.isDown) &&
-      this.player.body.onFloor()
-    ) {
-      this.player.body.setVelocityY(-900);
-    }
+    this.player.update();
   }
 
   handleJoystick() {
