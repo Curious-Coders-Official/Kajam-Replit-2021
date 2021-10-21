@@ -53,8 +53,8 @@ class GameScene extends Phaser.Scene {
         x: window.innerWidth - 75,
         y: window.innerHeight - 75,
         dir: '4dir',
-        base: this.add.circle(0, 0, 60, 0x888888),
-        thumb: this.add.circle(0, 0, 30, 0xef1313),
+        base: this.add.circle(0, 0, 60, 0xe0e4f1),
+        thumb: this.add.circle(0, 0, 30, 0x333),
       })
       .on("update", this.handleJoystick, this);
   }
@@ -65,7 +65,7 @@ class GameScene extends Phaser.Scene {
 
   handleJoystick() {
     let cursorKeys = this.joystick.createCursorKeys();
-    let keyDown = cursorKeys.find((key) => key.isDown);
+    let keyDown = Object.values(cursorKeys).find((key) => key.isDown);
     
     if (keyDown === "left")
       this.player.body.x = this.player.body.x - 10;
