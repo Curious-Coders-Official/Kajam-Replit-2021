@@ -10,6 +10,7 @@ class GameScene extends Phaser.Scene {
     this.canvas = this.sys.game.canvas; //  Sets the canvas property for ease of acess
     this.load.image("bg", "static/back.gif");
     this.load.image("owl", "static/owl.gif");
+    this.load.image("fire", "static/fire.png");
     // joystick plugin hehe
     this.load.plugin(
       "rexvirtualjoystickplugin",
@@ -38,6 +39,16 @@ class GameScene extends Phaser.Scene {
 
     this.player = new Player(this, 0, 0, "owl");
     this.player.scale = 0.8;
+
+    // Rocket Booster
+    var rocketBooster = this.add.rectangle(200, 200, 5, 5, 0xffffff);
+    var particles = this.add.particles('fire');
+    var emitter = particles.createEmitter({
+      speed: 20,
+      scale: { start: .3, end: 0 },
+      // blendMode: 'MULTIPLY'
+    });
+    emitter.startFollow(rocketBooster);
 
     // Platforms
     let platforms = this.physics.add.staticGroup();
