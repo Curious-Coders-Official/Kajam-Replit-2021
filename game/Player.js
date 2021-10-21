@@ -6,7 +6,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
     scene.add.existing(this);
     this.setCollideWorldBounds(true);
-    this.setScale(0.5);
+    
+    this.thrustFuel = 80;
   }
   update(){
     // Left-Right controls
@@ -20,8 +21,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     // Thrusting
-    if (this.scene.cursors.space.isDown || this.scene.cursors.up.isDown){
+    if((this.scene.cursors.space.isDown || this.scene.cursors.up.isDown) && this.thrustFuel > 0){
       this.body.setVelocityY(-400);
+      this.thrustFuel -= 1;
+      console.log(this.thrustFuel)
     }
   }
 }

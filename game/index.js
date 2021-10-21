@@ -1,8 +1,11 @@
 const Phaser = require("phaser");
 const GameScene = require("./gameScene");
+const Global = require("./Global");
 
-let width = 1500;
-let height = 1300;
+let width = innerWidth;
+let height = innerHeight;
+width = innerWidth;
+height = innerHeight;
 
 var config = {
   type: Phaser.CANVAS,
