@@ -1,6 +1,5 @@
 const Phaser = require("phaser");
 const GameScene = require("./gameScene");
-const Global = require("./Global");
 
 let width = innerWidth;
 let height = innerHeight;

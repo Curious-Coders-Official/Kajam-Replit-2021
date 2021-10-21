@@ -67,25 +67,29 @@ class GameScene extends Phaser.Scene {
         base: this.add.circle(0, 0, 60, 0xe0e4f1),
         thumb: this.add.circle(0, 0, 30, 0x333),
       })
-      .on("update", this.handleJoystick, this);
   }
 
   update(time, delta) {
     this.fpsText.setText("FPS: " + (1000 / delta).toFixed(3));
     this.player.update();
+    this.handleJoystick();
   }
 
   handleJoystick() {
     let cursorKeys = this.joystick.createCursorKeys();
-    let keyDown = Object.values(cursorKeys).find((key) => key.isDown);
+    let keyDown = '';
+    for (let name in cursorKeys) {
+      if (cursorKeys[name].isDown) keyDown = name;
+    }
 
-    if (keyDown === "left") this.player.body.x = this.player.body.x - 10;
-    else if (keyDown === "right") this.player.body.x = this.player.body.x + 10;
+    if (keyDown === "left") this.player.body.setVelocityX(-400);
+    else if (keyDown === "right") this.player.body.setVelocityX(400);
     else if (
-      ["bottom", "top"].includes(keyDown) &&
-      this.player.body.onFloor()
+      ["up", "down"].includes(keyDown) &&
+      this.player.thrustFuel > 0
     ) {
-      this.player.body.setVelocityY(-900);
+      this.player.body.setVelocityY(-400);
+      this.player.thrustFuel -= 1;
     }
   }
 }
