@@ -6,15 +6,19 @@ class GameScene extends Phaser.Scene {
   constructor() {
     super("GameScene");
   }
+
   preload() {
     this.canvas = this.sys.game.canvas; //  Sets the canvas property for ease of acess
+
     this.load.image("bg", "static/back.gif");
     this.load.image("owl", "static/owl.gif");
     this.load.image("fire", "static/fire.png");
+    this.load.image("bullet", "static/bullet.png");
+
     // joystick plugin hehe
     this.load.plugin(
       "rexvirtualjoystickplugin",
-      "https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js",
+      "/static/joystickplugin.min.js",
       true
     );
   }
@@ -32,20 +36,22 @@ class GameScene extends Phaser.Scene {
     let scale = Math.max(scaleX, scaleY);
     image.setScale(scale).setScrollFactor(0.2);
 
-    this.fpsText = this.add.text(10, 10, "FPS: --", {
-      font: "bold 26px Arial",
-      fill: "#ffffff",
-    });
+    this.fpsText = this.add
+      .text(10, 10, "FPS: --", {
+        font: "bold 18px Arial",
+        fill: "#ffffff",
+      })
+      .setScrollFactor(0);
 
     this.player = new Player(this, 0, 0, "owl");
     this.player.scale = 0.8;
 
     // Rocket Booster
     var rocketBooster = this.add.rectangle(200, 200, 5, 5, 0xffffff);
-    var particles = this.add.particles('fire');
+    var particles = this.add.particles("fire");
     var emitter = particles.createEmitter({
       speed: 20,
-      scale: { start: .3, end: 0 },
+      scale: { start: 0.3, end: 0 },
       // blendMode: 'MULTIPLY'
     });
     emitter.startFollow(rocketBooster);
@@ -68,40 +74,58 @@ class GameScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player);
 
     // joystick
-    this.joystick = this.plugins
-      .get("rexvirtualjoystickplugin")
-      .add(this, {
-        radius: 60,
-        x: window.innerWidth - 75,
-        y: window.innerHeight - 75,
-        dir: "4dir",
-        base: this.add.circle(0, 0, 60, 0xe0e4f1),
-        thumb: this.add.circle(0, 0, 30, 0x333),
-      })
+    this.joystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
+      radius: 60,
+      x: this.canvas.width - 75,
+      y: this.canvas.height - 75,
+      dir: "8dir",
+      base: this.add.circle(0, 0, 60, 0xe0e4f1),
+      thumb: this.add.circle(0, 0, 30, 0x333),
+    });
+
+    // shoot button
+    let shootBtn = this.add
+      .circle(75, this.canvas.height - 50, 30, 0xffd700, 0.2)
+      .setScrollFactor(0);
+    this.add
+      .image(shootBtn.x, shootBtn.y, "bullet")
+      .setScale(0.2)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on("pointerdown", this.handleShoot);
   }
 
   update(time, delta) {
-    this.fpsText.setText("FPS: " + (1000 / delta).toFixed(3));
+    this.fpsText.setText("FPS: " + Math.round(1000 / delta));
     this.player.update();
     this.handleJoystick();
   }
 
   handleJoystick() {
     let cursorKeys = this.joystick.createCursorKeys();
-    let keyDown = '';
+    let keyDown = "";
     for (let name in cursorKeys) {
       if (cursorKeys[name].isDown) keyDown = name;
     }
 
     if (keyDown === "left") this.player.body.setVelocityX(-400);
     else if (keyDown === "right") this.player.body.setVelocityX(400);
-    else if (
-      ["up", "down"].includes(keyDown) &&
-      this.player.thrustFuel > 0
-    ) {
+    else if (keyDown === "up" && this.player.thrustFuel > 0) {
+      this.player.body.setVelocityY(-400);
+      this.player.thrustFuel -= 1;
+    } else if (keyDown === "up left" && this.player.thrustFuel > 0) {
+      this.player.body.setVelocityX(-400);
+      this.player.body.setVelocityY(-400);
+      this.player.thrustFuel -= 1;
+    } else if (keyDown === "up right" && this.player.thrustFuel > 0) {
+      this.player.body.setVelocityX(400);
       this.player.body.setVelocityY(-400);
       this.player.thrustFuel -= 1;
     }
+  }
+
+  handleShoot() {
+    // shoot button is clicked so handle it
   }
 }
 
