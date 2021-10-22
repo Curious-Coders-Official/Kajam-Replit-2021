@@ -81,34 +81,38 @@ class GameScene extends Phaser.Scene {
       x: this.canvas.width - 75,
       y: this.canvas.height - 75,
       dir: "8dir",
-      base: this.add.circle(0, 0, 60, 0xe0e4f1),
+      base: this.add.circle(0, 0, 60, 0xe0e4f1, 0.7),
       thumb: this.add.circle(0, 0, 30, 0x333),
     });
 
     // shoot button
     let resizeIcon;
     let resizeBtn = this.add
-      .circle(this.canvas.width - 26, 26, 20, 0x212121, .7)
+      .circle(this.canvas.width - 26, 26, 20, 0x212121, 0.7)
       .setScrollFactor(0)
       .setInteractive()
-      .on("pointerdown", e => { this.toggleFullScreen(resizeIcon); });
+      .on("pointerdown", (e) => {
+        this.toggleFullScreen(resizeIcon);
+      });
     resizeIcon = this.add
       .image(resizeBtn.x, resizeBtn.y, "fullscreen")
       .setScale(1)
       .setScrollFactor(0)
       .setInteractive()
-      .on("pointerdown", e => { this.toggleFullScreen(resizeIcon); });
+      .on("pointerdown", (e) => {
+        this.toggleFullScreen(resizeIcon);
+      });
 
     // shoot button
     let shootBtn = this.add
-      .circle(75, this.canvas.height - 50, 30, 0xffd700, 0.2)
-      .setScrollFactor(0);
-    this.add
-      .image(shootBtn.x, shootBtn.y, "bullet")
-      .setScale(0.2)
+      .circle(50, this.canvas.height - 50, 30, 0xe0e4f1, 0.7)
       .setScrollFactor(0)
       .setInteractive()
       .on("pointerdown", this.handleShoot);
+    this.add
+      .image(shootBtn.x, shootBtn.y, "bullet")
+      .setScale(0.2)
+      .setScrollFactor(0);
   }
 
   update(time, delta) {

@@ -3,8 +3,6 @@ const GameScene = require("./gameScene");
 
 let width = innerWidth;
 let height = innerHeight;
-width = innerWidth;
-height = innerHeight;
 
 var config = {
   type: Phaser.CANVAS,
