@@ -14,6 +14,8 @@ class GameScene extends Phaser.Scene {
     this.load.image("owl", "static/owl.gif");
     this.load.image("fire", "static/fire.png");
     this.load.image("bullet", "static/bullet.png");
+    this.load.image("fullscreen", "static/fullscreen.png");
+    this.load.image("fullscreen_exit", "static/fullscreen_exit.png");
 
     // joystick plugin hehe
     this.load.plugin(
@@ -84,6 +86,20 @@ class GameScene extends Phaser.Scene {
     });
 
     // shoot button
+    let resizeIcon;
+    let resizeBtn = this.add
+      .circle(this.canvas.width - 26, 26, 20, 0x212121, .7)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on("pointerdown", e => { this.toggleFullScreen(resizeIcon); });
+    resizeIcon = this.add
+      .image(resizeBtn.x, resizeBtn.y, "fullscreen")
+      .setScale(1)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on("pointerdown", e => { this.toggleFullScreen(resizeIcon); });
+
+    // shoot button
     let shootBtn = this.add
       .circle(75, this.canvas.height - 50, 30, 0xffd700, 0.2)
       .setScrollFactor(0);
@@ -121,6 +137,20 @@ class GameScene extends Phaser.Scene {
       this.player.body.setVelocityX(400);
       this.player.body.setVelocityY(-400);
       this.player.thrustFuel -= 1;
+    }
+  }
+
+  toggleFullScreen(icon) {
+    if (document.fullscreenEnabled) {
+      if (this.scale.isFullscreen) {
+        this.scale.stopFullscreen();
+        icon.setTexture("fullscreen");
+        console.log("exited fullscreen!");
+      } else {
+        this.scale.startFullscreen();
+        icon.setTexture("fullscreen_exit");
+        console.log("entered fullscreen!");
+      }
     }
   }
 
