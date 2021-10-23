@@ -8,6 +8,7 @@ var config = {
   type: Phaser.CANVAS,
   width,
   height,
+  
   scale: {
     mode: Phaser.Scale.WIDTH_CONTROLS_HEIGHT ,
     autoCenter: Phaser.Scale.CENTER_BOTH
