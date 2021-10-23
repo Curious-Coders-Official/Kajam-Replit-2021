@@ -20,9 +20,8 @@ class Shield extends Phaser.Physics.Arcade.Sprite {
     this.setX(this.player.x);
     this.setY(this.player.y);
 
-    this.setAngle(Utils.anglePointToPoint(this.x, this.y, this.scene.mouseX, this.scene.mouseY)); // Set angle in relation to the mouse
-
-
+    let ang = Utils.anglePointToPoint(this.x-this.scene.cameras.main.scrollX, this.y-this.scene.cameras.main.scrollY, this.scene.mouseX, this.scene.mouseY); // Set angle in relation to the mouse
+    this.setAngle(ang);
     // Collision with bullets, will do once the bullet is made
   }
 }
