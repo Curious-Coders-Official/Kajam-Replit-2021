@@ -1,7 +1,6 @@
 const Phaser = require("phaser");
 const Player = require("./Player");
 const GameData = require("../assets/game.json");
-const Global = require("./Global");
 
 class GameScene extends Phaser.Scene {
   constructor() {

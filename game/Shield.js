@@ -1,6 +1,5 @@
 const Phaser = require("phaser");
 const Utils = require("./Utils");
-const Global = require("./Global");
 
 class Shield extends Phaser.Physics.Arcade.Sprite {
   constructor(player, scene){
