@@ -1,6 +1,7 @@
 const Phaser = require("phaser");
 const Player = require("./Player");
 const GameData = require("../assets/game.json");
+const Global = require("./Global");
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -16,6 +17,7 @@ class GameScene extends Phaser.Scene {
     this.load.image("bullet", "static/bullet.png");
     this.load.image("fullscreen", "static/fullscreen.png");
     this.load.image("fullscreen_exit", "static/fullscreen_exit.png");
+    this.load.image("shield", "static/shield.png");
 
     // joystick plugin hehe
     this.load.plugin(
@@ -27,7 +29,6 @@ class GameScene extends Phaser.Scene {
 
   create() {
     this.physics.world.setBounds(0, 0, GameData.worldWidth, innerHeight);
-
     let image = this.add.image(
       this.cameras.main.width / 2,
       this.cameras.main.height / 2,
@@ -85,7 +86,7 @@ class GameScene extends Phaser.Scene {
       thumb: this.add.circle(0, 0, 30, 0x333),
     });
 
-    // shoot button
+    // resize button
     let resizeIcon;
     let resizeBtn = this.add
       .circle(this.canvas.width - 26, 26, 20, 0x212121, 0.7)
@@ -113,6 +114,12 @@ class GameScene extends Phaser.Scene {
       .image(shootBtn.x, shootBtn.y, "bullet")
       .setScale(0.2)
       .setScrollFactor(0);
+
+    // Mouse Event
+    this.input.on("pointermove", (pointer) => {
+      this.mouseX = pointer.x;
+      this.mouseY = pointer.y;
+    });
   }
 
   update(time, delta) {

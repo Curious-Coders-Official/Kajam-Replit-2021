@@ -1,4 +1,5 @@
 const Phaser = require("phaser");
+const Shield = require("./Shield");
 
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -9,7 +10,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     this.thrustFuel = 80;
     this.timeStamp = Date.now();
-    this.regenRate = 2000; // in milliseconds
+    this.regenRate = 500; // in milliseconds
+
+    this.shield = new Shield(this, scene);
   }
   update() {
     // Left-Right controls
@@ -40,6 +43,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.thrustFuel++;
       this.timeStamp = Date.now();
     }
+
+
+    // Shield Update
+    this.shield.update();
   }
 }
 

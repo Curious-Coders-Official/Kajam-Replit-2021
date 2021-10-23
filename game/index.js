@@ -8,6 +8,7 @@ var config = {
   type: Phaser.CANVAS,
   width,
   height,
+  pixelArt: true,
   physics: {
     default: "arcade",
     arcade: {
