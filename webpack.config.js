@@ -7,7 +7,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, "static"),
     filename: "main-game.js",
-  },
+  } 
 };
 
 module.exports = config;
