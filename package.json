@@ -7,8 +7,9 @@
     "dev": "concurrently \"npm:dev:server\" \"npm:dev:javascript\"",
     "dev:server": "node server/index.js",
     "dev:javascript": "webpack --config webpack.dev.config.js --watch",
-    "production": "TODO: Will do the production compile commands later",
-    "build": "webpack --config webpack.config.js"
+    "prod": "npm run prod:server && npm run prod:javascript",
+    "prod:server": "node server/index.js",
+    "prod:javascript": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
