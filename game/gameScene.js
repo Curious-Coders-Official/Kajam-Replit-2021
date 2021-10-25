@@ -88,6 +88,15 @@ class GameScene extends Phaser.Scene {
       base: this.add.circle(0, 0, 60, 0xe0e4f1, 0.7),
       thumb: this.add.circle(0, 0, 30, 0x333),
     });
+    
+    this.shieldJoystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
+      radius: 60,
+      x: 75,
+      y: this.canvas.height - 75,
+      dir: "8dir",
+      base: this.add.circle(0, 0, 60, 0xe0e4f1, 0.7),
+      thumb: this.add.circle(0, 0, 30, 0x333),
+    });
 
     // resize button
     let resizeIcon;
@@ -109,7 +118,7 @@ class GameScene extends Phaser.Scene {
 
     // shoot button
     let shootBtn = this.add
-      .circle(50, this.canvas.height - 50, 30, 0xe0e4f1, 0.7)
+      .circle(50, 50, 30, 0xe0e4f1, 0.7)
       .setScrollFactor(0)
       .setInteractive()
       .on("pointerdown", this.handleShoot);
@@ -129,6 +138,7 @@ class GameScene extends Phaser.Scene {
     this.fpsText.setText("FPS: " + Math.round(1000 / delta));
     this.player.update();
     this.handleJoystick();
+    this.handleShieldMovement();
   }
 
   handleJoystick() {
@@ -151,6 +161,16 @@ class GameScene extends Phaser.Scene {
       this.player.body.setVelocityX(400);
       this.player.body.setVelocityY(-400);
       this.player.thrustFuel -= 1;
+    }
+  }
+  
+  handleShieldMovement() {
+    let angle = Math.floor(this.shieldJoystick.angle * 100) / 100;
+    
+    if (angle > 0) angle = 179 + angle + 179;
+    
+    if (angle !== 0) {
+      this.player.shield.setAngle(angle);
     }
   }
 
