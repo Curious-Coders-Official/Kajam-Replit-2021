@@ -44,19 +44,21 @@ class GameScene extends Phaser.Scene {
         fill: "#ffffff",
       })
       .setScrollFactor(0);
+      
+    let particles = this.add.particles("fire");
 
     this.player = new Player(this, 0, 0, "owl");
     this.player.scale = 0.8;
 
     // Rocket Booster
-    var rocketBooster = this.add.rectangle(200, 200, 5, 5, 0xffffff);
-    var particles = this.add.particles("fire");
-    var emitter = particles.createEmitter({
+    
+    let emitter = particles.createEmitter({
       speed: 20,
       scale: { start: 0.3, end: 0 },
-      // blendMode: 'MULTIPLY'
+      blendMode: 'ADD',
     });
-    emitter.startFollow(rocketBooster);
+    
+    emitter.startFollow(this.player, 0, this.player.height / 3);
 
     // Platforms
     let platforms = this.physics.add.staticGroup();

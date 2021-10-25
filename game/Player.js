@@ -44,7 +44,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.timeStamp = Date.now();
     }
 
-
     // Shield Update
     this.shield.update();
   }
