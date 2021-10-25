@@ -1,5 +1,5 @@
 const Phaser = require("phaser");
-const Player = require("./Player");
+const Player = require("./Player/Player");
 const GameData = require("../assets/game.json");
 const Enemy = require("./Enemy");
 
@@ -37,6 +37,7 @@ class GameScene extends Phaser.Scene {
       this.cameras.main.height / 2,
       "bg"
     );
+    image.depth = -50;
     let scaleX = this.cameras.main.width / image.width;
     let scaleY = this.cameras.main.height / image.height;
     let scale = Math.max(scaleX, scaleY);
@@ -49,20 +50,10 @@ class GameScene extends Phaser.Scene {
       })
       .setScrollFactor(0);
       
-    let particles = this.add.particles("fire");
 
     this.player = new Player(this, 0, 0, "owl");
 
 
-    // Rocket Booster
-    
-    let emitter = particles.createEmitter({
-      speed: 20,
-      scale: { start: 0.3, end: 0 },
-      blendMode: 'ADD',
-    });
-    
-    emitter.startFollow(this.player, 0, this.player.height / 3);
 
     // Platforms
     let platforms = this.physics.add.staticGroup();
