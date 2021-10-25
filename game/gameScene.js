@@ -1,6 +1,7 @@
 const Phaser = require("phaser");
 const Player = require("./Player");
 const GameData = require("../assets/game.json");
+const Enemy = require("./Enemy");
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -11,7 +12,10 @@ class GameScene extends Phaser.Scene {
     this.canvas = this.sys.game.canvas; //  Sets the canvas property for ease of acess
 
     this.load.image("bg", "static/back.gif");
-    this.load.image("owl", "static/owl.gif");
+    this.load.spritesheet("astronaut", "static/astronaut.png", {
+      frameWidth:16,
+      frameHeight:16
+    });
     this.load.image("fire", "static/fire.png");
     this.load.image("bullet", "static/bullet.png");
     this.load.image("fullscreen", "static/fullscreen.png");
@@ -46,7 +50,7 @@ class GameScene extends Phaser.Scene {
       .setScrollFactor(0);
 
     this.player = new Player(this, 0, 0, "owl");
-    this.player.scale = 0.8;
+
 
     // Rocket Booster
     var rocketBooster = this.add.rectangle(200, 200, 5, 5, 0xffffff);
@@ -68,6 +72,13 @@ class GameScene extends Phaser.Scene {
     // this.add.rectangle(300, 100, 100, 30, 0x0000ff);
     platforms.addMultiple(platformsArr);
     this.physics.add.collider(this.player, platforms);
+
+
+    // Enemies
+    this.enemies = this.physics.add.group();
+    this.enemiesArr = [];
+    this.enemiesArr.push(new Enemy(this, 200, 200));
+
 
     this.cursors = this.input.keyboard.createCursorKeys();
 
