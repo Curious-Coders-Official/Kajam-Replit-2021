@@ -60,8 +60,7 @@ class Rocket {
     // Fuel System
     if (
       this.player.body.onFloor() &&
-      this.thrustFuel < 80 &&
-      Date.now() - this.timeStamp > this.regenRate
+      this.thrustFuel < 80
     ) {
       this.thrustFuel++;
       this.timeStamp = Date.now();

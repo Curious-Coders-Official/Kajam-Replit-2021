@@ -7,12 +7,12 @@ class Enemy extends Phaser.Physics.Arcade.Sprite {
   speedY = 310;
 
   constructor(scene, x, y) {
-    super(scene, x, y, "enemy");
+    super(scene, x, y, "enemy-sheet");
     scene.physics.add.existing(this);
     scene.add.existing(this);
     this.setCollideWorldBounds(true);
     this.setFrictionX(100000)
-
+    this.setScale(0.8);
 
     this.nextJump = 3000;
     

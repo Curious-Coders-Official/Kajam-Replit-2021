@@ -21,6 +21,10 @@ class GameScene extends Phaser.Scene {
     this.load.image("fullscreen", "static/fullscreen.png");
     this.load.image("fullscreen_exit", "static/fullscreen_exit.png");
     this.load.image("shield", "static/shield2.png");
+    this.load.spritesheet("enemy-sheet", "static/enemies.png", {
+      frameWidth:208,
+      frameHeight:205
+    });
 
     // joystick plugin hehe
     this.load.plugin(
@@ -72,12 +76,14 @@ class GameScene extends Phaser.Scene {
     // Enemies
     this.enemies = this.physics.add.group();
     this.enemiesArr = [];
-    this.enemiesArr.push(new Enemy(this, GameData.worldWidth-100, GameData.worldHeight/2));
-    this.enemies.addMultiple(this.enemiesArr);
-    this.physics.add.collider(this.enemies, this.platforms)
-    this.physics.add.collider(this.enemies, this.player, (player,enemy)=>{
-      player.killed();
-    });
+    setTimeout(()=>{
+      this.enemiesArr.push(new Enemy(this, 100, GameData.worldHeight/2));
+      this.enemies.addMultiple(this.enemiesArr);
+      this.physics.add.collider(this.enemies, this.platforms)
+      this.physics.add.collider(this.enemies, this.player, (player,enemy)=>{
+        player.killed();
+      });
+    }, 10000)
     this.cursors = this.input.keyboard.createCursorKeys();
 
     // Camera
