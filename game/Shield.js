@@ -9,8 +9,8 @@ class Shield extends Phaser.Physics.Arcade.Sprite {
     this.player = player;
 
     this.scene.add.existing(this);
-    this.setOrigin(0, 1);
-    this.setScale(5);
+    this.setOrigin(0.6, 0.6);
+    this.setScale(0.2);
 
     // Utils.anglePointToPoint()
   }
@@ -18,7 +18,7 @@ class Shield extends Phaser.Physics.Arcade.Sprite {
   update() {
     // Follow player
     this.setX(this.player.x);
-    this.setY(this.player.y);
+    this.setY(this.player.y)
 
     let ang = Utils.anglePointToPoint(
       this.x - this.scene.cameras.main.scrollX,

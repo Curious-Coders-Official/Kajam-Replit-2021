@@ -19,14 +19,14 @@ class Rocket {
     this.emitter = this.particles.createEmitter({
       x: 200,
       y: 300,
-      lifespan: 1000,
-      speed: { min: 200, max: 500 },
+      lifespan: 500,
+      speed: { min: 100, max: 400 },
       angle: 90,
-      gravityY: 600,
+      gravityY: 200,
       scale: { start: 0.4, end: 0 },
       quantity: 1,
       blendMode: 'ADD',
-      on: false
+      on: false,
     });
     this.emitter.startFollow(this.player);
     this.emitter.followOffset.set(0,player.height);

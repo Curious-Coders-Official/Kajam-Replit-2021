@@ -1,7 +1,7 @@
 const Phaser = require("phaser");
 const Player = require("./Player/Player");
 const GameData = require("../assets/game.json");
-const Enemy = require("./Enemy");
+const Enemy = require("./Enemy/Enemy");
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -20,7 +20,7 @@ class GameScene extends Phaser.Scene {
     this.load.image("bullet", "static/bullet.png");
     this.load.image("fullscreen", "static/fullscreen.png");
     this.load.image("fullscreen_exit", "static/fullscreen_exit.png");
-    this.load.image("shield", "static/shield.png");
+    this.load.image("shield", "static/shield2.png");
 
     // joystick plugin hehe
     this.load.plugin(
@@ -31,7 +31,7 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.physics.world.setBounds(0, 0, GameData.worldWidth, innerHeight);
+    this.physics.world.setBounds(0, 0, GameData.worldWidth, GameData.worldHeight);
     let image = this.add.image(
       this.cameras.main.width / 2,
       this.cameras.main.height / 2,
@@ -56,27 +56,32 @@ class GameScene extends Phaser.Scene {
 
 
     // Platforms
-    let platforms = this.physics.add.staticGroup();
-    let platformsArr = [];
-    platformsArr.push(this.add.rectangle(300, 400, 100, 30, 0x0000ff));
-    platformsArr.push(this.add.rectangle(500, 550, 200, 30, 0x0000ff));
-    platformsArr.push(this.add.rectangle(500, 400, 500, 30, 0xff000ff));
+    this.platforms = this.physics.add.staticGroup();
+    this.platformsArr = [];
+    console.log(GameData.worldWidth)
+    this.platformsArr.push(this.add.rectangle(0, GameData.worldHeight, GameData.worldWidth, 150, 0x0000ff).setOrigin(0,1));
+    //this.platformsArr.push(this.add.rectangle(500, 550, 200, 30, 0x0000ff));
+    //this.platformsArr.push(this.add.rectangle(500, 400, 500, 30, 0xff000ff));
     // this.add.rectangle(300, 100, 100, 30, 0x0000ff);
     // this.add.rectangle(300, 100, 100, 30, 0x0000ff);
-    platforms.addMultiple(platformsArr);
-    this.physics.add.collider(this.player, platforms);
+    this.platforms.addMultiple(this.platformsArr);
+    this.physics.add.collider(this.player, this.platforms);
+
 
 
     // Enemies
     this.enemies = this.physics.add.group();
     this.enemiesArr = [];
-    this.enemiesArr.push(new Enemy(this, 200, 200));
-
-
+    this.enemiesArr.push(new Enemy(this, GameData.worldWidth-100, GameData.worldHeight/2));
+    this.enemies.addMultiple(this.enemiesArr);
+    this.physics.add.collider(this.enemies, this.platforms)
+    this.physics.add.collider(this.enemies, this.player, (player,enemy)=>{
+      player.killed();
+    });
     this.cursors = this.input.keyboard.createCursorKeys();
 
     // Camera
-    this.cameras.main.setBounds(0, 0, GameData.worldWidth, innerHeight);
+    this.cameras.main.setBounds(0, 0, GameData.worldWidth, GameData.worldHeight);
     this.cameras.main.startFollow(this.player);
 
     // joystick
@@ -89,14 +94,14 @@ class GameScene extends Phaser.Scene {
       thumb: this.add.circle(0, 0, 30, 0x333),
     });
     
-    this.shieldJoystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
-      radius: 60,
-      x: 75,
-      y: this.canvas.height - 75,
-      dir: "8dir",
-      base: this.add.circle(0, 0, 60, 0xe0e4f1, 0.7),
-      thumb: this.add.circle(0, 0, 30, 0x333),
-    });
+    // this.shieldJoystick = this.plugins.get("rexvirtualjoystickplugin").add(this, {
+    //   radius: 60,
+    //   x: 75,
+    //   y: this.canvas.height - 75,
+    //   dir: "8dir",
+    //   base: this.add.circle(0, 0, 60, 0xe0e4f1, 0.7),
+    //   thumb: this.add.circle(0, 0, 30, 0x333),
+    // });
 
     // resize button
     let resizeIcon;
@@ -117,15 +122,15 @@ class GameScene extends Phaser.Scene {
       });
 
     // shoot button
-    let shootBtn = this.add
-      .circle(50, 50, 30, 0xe0e4f1, 0.7)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on("pointerdown", this.handleShoot);
-    this.add
-      .image(shootBtn.x, shootBtn.y, "bullet")
-      .setScale(0.2)
-      .setScrollFactor(0);
+    // let shootBtn = this.add
+    //   .circle(50, 50, 30, 0xe0e4f1, 0.7)
+    //   .setScrollFactor(0)
+    //   .setInteractive()
+    //   .on("pointerdown", this.handleShoot);
+    // this.add
+    //   .image(shootBtn.x, shootBtn.y, "bullet")
+    //   .setScale(0.2)
+    //   .setScrollFactor(0);
 
     // Mouse Event
     this.input.on("pointermove", (pointer) => {
@@ -137,8 +142,12 @@ class GameScene extends Phaser.Scene {
   update(time, delta) {
     this.fpsText.setText("FPS: " + Math.round(1000 / delta));
     this.player.update();
+    for(let i = 0; i < this.enemiesArr.length; i++) {
+      const enemy = this.enemiesArr[i];
+      enemy.update(time, delta);
+    }
     this.handleJoystick();
-    this.handleShieldMovement();
+    // this.handleShieldMovement();
   }
 
   handleJoystick() {

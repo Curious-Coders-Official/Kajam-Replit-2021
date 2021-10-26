@@ -5,6 +5,10 @@ class Utils {
     let ThetaRadians = Math.atan2(deltaY, deltaX);
     return (ThetaRadians * 180) / Math.PI;
   }
+
+  static VelToAngle(angle){
+    return {x:-20, y:-20}
+  }
 }
 
 module.exports = Utils;

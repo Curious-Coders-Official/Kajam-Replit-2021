@@ -1,8 +1,9 @@
 const Phaser = require("phaser");
 const GameScene = require("./gameScene");
+const GameData = require("../assets/game.json");
 
 let width = innerWidth;
-let height = innerHeight;
+let height = GameData.worldHeight;
 
 var config = {
   type: Phaser.CANVAS,

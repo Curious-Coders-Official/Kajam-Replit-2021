@@ -7,7 +7,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
   constructor(scene, x, y) {
     super(scene, x, y, "astronaut");
-    this.setScale(5);
+    this.setScale(3.5);
     this.scene.physics.add.existing(this);
     this.scene.add.existing(this);
     this.setCollideWorldBounds(true);
@@ -15,7 +15,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     
     this.setupAnimations(); 
     this.play("idle");
-    this.shield = new Shield(this, this.scene);
+    // this.shield = new Shield(this, this.scene);
     this.rocket = new Rocket(this.scene, this, this.x ,this.y)
     this.timeStamp = Date.now();
   }
@@ -77,9 +77,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.rocket.update(); 
 
     // Shield
-    this.shield.update();
+    // this.shield.update();
   }
 
+  killed(){
+    if(this.dead) return;
+    this.dead = true;
+    console.log("## THE PLAYER DIED ##");
+  }
 
 
   // Some helper functions
