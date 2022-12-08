@@ -24,7 +24,7 @@
   "homepage": "https://github.com/Curious-Coders-Official/Kajam-Replit-2021#readme",
   "dependencies": {
     "concurrently": "^6.3.0",
-    "express": "^4.17.1",
+    "express": "^4.18.2",
     "phaser": "^3.55.2",
     "webpack": "^5.58.2",
     "webpack-cli": "^4.9.0"
